@@ -10,17 +10,17 @@ module SimplySerializable
     def initialize(
       attributes: [],
       cache: {},
-      except: [],
+      except: nil,
       include_readable_instance_variables: true,
       method_prefix: :serialize,
       object:,
-      only: []
+      only: nil
     )
       @object = object
       @attributes = attributes
       @include_readable_instance_variables = include_readable_instance_variables
-      @except = except.map(&:to_sym)
-      @only = only.map(&:to_sym)
+      @except = except&.map(&:to_sym)
+      @only = only&.map(&:to_sym)
       @method_prefix = method_prefix
       @cache = cache
       @cache[cache_key] = nil
@@ -91,12 +91,12 @@ module SimplySerializable
     end
 
     def populate_attributes
-      raise 'You cannot pass only and except values.  Please choose one.' if only.any? && except.any?
+      raise 'You cannot pass only and except values.  Please choose one.' if !only.nil? && !except.nil?
 
       @attributes |= instance_vars_with_readers if @include_readable_instance_variables
 
-      @attributes = attributes & only if only.any?
-      @attributes = attributes - except if except.any?
+      @attributes = only unless only.nil?
+      @attributes = attributes - except unless except.nil?
       attributes
     end
 

@@ -129,7 +129,6 @@ RSpec.describe SimplySerializable::Serializer do
       root: 'SimplySerializable::SerializableTestObject/daaf6256673afd34f86391a8a7684a49',
       objects: {
         'SimplySerializable::SerializableTestObject/daaf6256673afd34f86391a8a7684a49' => {
-          additive: :additive_val,
           :cycle_attr => 'SimplySerializable::SerializableTestObject/daaf6256673afd34f86391a8a7684a49',
           :false_attr => false,
           :integer_attr => 987,
@@ -145,12 +144,15 @@ RSpec.describe SimplySerializable::Serializer do
           :true_attr => true,
           :with_self => 'SimplySerializable::SerializableTestObject/daaf6256673afd34f86391a8a7684a49',
           'float_attr' => 1.23,
+          :additive => :additive_val,
           :readable_instance_attr => :readable_instance_attr_val
         },
         'SimplySerializable::SerializableExceptTestObject/d751713988987e9331980363e24189ce' => {
           nested: 'SimplySerializable::SerializableOnlyTestObject/d751713988987e9331980363e24189ce'
         },
-        'SimplySerializable::SerializableOnlyTestObject/d751713988987e9331980363e24189ce' => {}
+        'SimplySerializable::SerializableOnlyTestObject/d751713988987e9331980363e24189ce' => {
+          end_of_the_line: :end_of_the_line_value
+        }
       }
     }
     expect(subject).to eq(h)

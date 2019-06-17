@@ -8,17 +8,24 @@ module SimplySerializable
         super(subclass)
       end
 
-      def serialize(attributes: [], except: [], only: [])
+      def serialize(attributes: [], except: nil, only: nil)
         serializable_config[:attributes] = serializable_config[:attributes] |= attributes
-        serializable_config[:except] = serializable_config[:except] |= except
-        serializable_config[:only] = serializable_config[:only] |= only
+        unless except.nil?
+          serializable_config[:except] ||= []
+          serializable_config[:except] = serializable_config[:except] |= except
+        end
+
+        unless only.nil?
+          serializable_config[:only] ||= []
+          serializable_config[:only] = serializable_config[:only] |= only
+        end
       end
 
       def serializable_config
         @serializable_config ||= {
           attributes: [],
-          except: [],
-          only: []
+          except: nil,
+          only: nil
         }
       end
     end
