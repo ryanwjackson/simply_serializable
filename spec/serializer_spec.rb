@@ -23,9 +23,15 @@ module SimplySerializable
       'float_attr'
     ]
 
+    serialize attributes: %i[additive]
+
     def initialize(cycle_attr: nil)
       @cycle_attr = cycle_attr || self.class.new(cycle_attr: self)
       @readable_instance_attr = :readable_instance_attr_val
+    end
+
+    def additive
+      :additive_val
     end
 
     def false_attr
@@ -123,6 +129,7 @@ RSpec.describe SimplySerializable::Serializer do
       root: 'SimplySerializable::SerializableTestObject/daaf6256673afd34f86391a8a7684a49',
       objects: {
         'SimplySerializable::SerializableTestObject/daaf6256673afd34f86391a8a7684a49' => {
+          additive: :additive_val,
           :cycle_attr => 'SimplySerializable::SerializableTestObject/daaf6256673afd34f86391a8a7684a49',
           :false_attr => false,
           :integer_attr => 987,

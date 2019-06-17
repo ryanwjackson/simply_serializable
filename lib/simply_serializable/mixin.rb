@@ -8,12 +8,18 @@ module SimplySerializable
         super(subclass)
       end
 
-      def serialize(**config)
-        @serializable_config = config
+      def serialize(attributes: [], except: [], only: [])
+        serializable_config[:attributes] = serializable_config[:attributes] |= attributes
+        serializable_config[:except] = serializable_config[:except] |= except
+        serializable_config[:only] = serializable_config[:only] |= only
       end
 
       def serializable_config
-        @serializable_config ||= {}
+        @serializable_config ||= {
+          attributes: [],
+          except: [],
+          only: []
+        }
       end
     end
 
@@ -28,7 +34,7 @@ module SimplySerializable
 
     def serializer(cache: {})
       Serializer.new(
-        self.class.serializable_config.merge(
+        **self.class.serializable_config.merge(
           cache: cache,
           object: self
         )
