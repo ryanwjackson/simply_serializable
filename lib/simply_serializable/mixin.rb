@@ -4,7 +4,7 @@ module SimplySerializable
   module Mixin
     module ClassMethods
       def inherited(subclass)
-        subclass.serialize(**serialize_config)
+        subclass.serialize(**serializable_config)
         super(subclass)
       end
 
