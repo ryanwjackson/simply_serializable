@@ -35,13 +35,15 @@ module SimplySerializable
       base.extend(ClassMethods)
     end
 
-    def serialize(cache: {})
-      serializer(cache: cache).serialize
+    def serialize(cache: {}, **options)
+      serializer(cache: cache, **options).serialize
     end
 
-    def serializer(cache: {})
+    def serializer(cache: {}, **options)
       Serializer.new(
         **self.class.serializable_config.merge(
+          options
+        ).merge(
           cache: cache,
           object: self
         )
@@ -49,11 +51,7 @@ module SimplySerializable
     end
 
     def serializable_id
-      "#{serializable_type}/#{fingerprint}"
-    end
-
-    def serializable_type
-      self.class.name
+      serializer.id
     end
   end
 end
