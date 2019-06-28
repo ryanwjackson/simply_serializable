@@ -1,6 +1,6 @@
 # SimplySerializable
 
-[![Coverage Status](https://coveralls.io/repos/github/ryanwjackson/simply_serializable/badge.svg?branch=master)](https://coveralls.io/github/ryanwjackson/simply_serializable?branch=master)
+[![Build Status](https://travis-ci.org/ryanwjackson/simply_serializable.svg?branch=master)](https://travis-ci.org/ryanwjackson/simply_serializable) [![Coverage Status](https://coveralls.io/repos/github/ryanwjackson/simply_serializable/badge.svg?branch=master)](https://coveralls.io/github/ryanwjackson/simply_serializable?branch=master)
 
 SimplySerializable (SS) is a lightweight gem for serializing objects.  It does not follow the JSON API structure, so as to optimizing for cycles and speed.
 
