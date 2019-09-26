@@ -188,4 +188,20 @@ RSpec.describe SimplySerializable::Serializer do
 
     it { expect(val(SimplySerializable)).to eq('SimplySerializable') }
   end
+
+  context 'do_not_serialize_if_class_is' do
+    let(:dt) { DateTime.new(2019) }
+
+    def val(use_val, **keywords)
+      serializer = described_class.new(
+        object: klass.new(foo: use_val),
+        **params.merge(keywords)
+      )
+      serializer.serialize[:objects][serializer.id][:data][:foo]
+    end
+
+    it { expect(val(dt)[:id]).to start_with('DateTime') }
+    it { expect(val(dt, do_not_serialize_if_class_is: DateTime)).to be_a(DateTime) }
+    it { expect(val(dt, do_not_serialize_if_class_is: [DateTime])).to be_a(DateTime) }
+  end
 end

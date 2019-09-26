@@ -3,6 +3,7 @@
 module SimplySerializable
   class Serializer
     attr_reader :attributes,
+                :do_not_serialize_if_class_is,
                 :except,
                 :object,
                 :only
@@ -10,6 +11,7 @@ module SimplySerializable
     def initialize(
       attributes: [],
       cache: {},
+      do_not_serialize_if_class_is: [],
       except: nil,
       include_readable_instance_variables: true,
       method_prefix: :serialize,
@@ -19,6 +21,8 @@ module SimplySerializable
       @object = object
       @id = id
       @attributes = attributes
+      @do_not_serialize_if_class_is = do_not_serialize_if_class_is || []
+      @do_not_serialize_if_class_is = [@do_not_serialize_if_class_is] unless @do_not_serialize_if_class_is.is_a?(Array)
       @include_readable_instance_variables = include_readable_instance_variables
       @except = except&.map(&:to_sym)
       @only = only&.map(&:to_sym)
@@ -97,6 +101,8 @@ module SimplySerializable
 
     def deep_serialize(obj)
       case obj
+      when *do_not_serialize_if_class_is
+        obj
       when FalseClass, Float, nil, Integer, String, Symbol, TrueClass
         obj
       when Array
@@ -160,7 +166,8 @@ module SimplySerializable
         @nestable = false
         return reference_to(use_object_cache_key)
       end
-      serializer =  unless use_object.respond_to?(:serialize)
+
+      serializer =  if !use_object.respond_to?(:serialize)
                       raise "#{use_object.class.name} does not respond to serialize.  Did you mean to include Serializable in this class?" unless @include_readable_instance_variables
 
                       Serializer.new(
@@ -170,7 +177,7 @@ module SimplySerializable
                     else
                       use_object.serializer(cache: @local_cache)
                     end
-      serializer
+
       @local_cache.merge!(serializer.cache)
       reference_to(use_object_cache_key)
     end
