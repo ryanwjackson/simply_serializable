@@ -8,7 +8,8 @@ module SimplySerializable
   class MixinTestObject
     include Mixin
 
-    serialize attributes: %i[foo]
+    serialize attributes: %i[foo],
+              do_not_serialize_if_class_is: Date
 
     def foo
       :foo
@@ -45,5 +46,6 @@ RSpec.describe SimplySerializable::Mixin do
 
     it { expect(klass).to respond_to(:serializable_config) }
     it { expect(subject[:attributes]).to eq(%i[foo]) }
+    it { expect(subject[:do_not_serialize_if_class_is]).to eq(Date) }
   end
 end

@@ -8,8 +8,9 @@ module SimplySerializable
         super(subclass)
       end
 
-      def serialize(attributes: [], except: nil, only: nil)
+      def serialize(attributes: [], except: nil, only: nil, **keywords)
         serializable_config[:attributes] = serializable_config[:attributes] |= attributes
+
         unless except.nil?
           serializable_config[:except] ||= []
           serializable_config[:except] = serializable_config[:except] |= except
@@ -19,6 +20,8 @@ module SimplySerializable
           serializable_config[:only] ||= []
           serializable_config[:only] = serializable_config[:only] |= only
         end
+
+        serializable_config.merge!(keywords)
       end
 
       def serializable_config
