@@ -172,6 +172,7 @@ module SimplySerializable
 
                       Serializer.new(
                         cache: @local_cache,
+                        do_not_serialize_if_class_is: do_not_serialize_if_class_is,
                         object: use_object
                       )
                     else

@@ -203,5 +203,19 @@ RSpec.describe SimplySerializable::Serializer do
     it { expect(val(dt)[:id]).to start_with('DateTime') }
     it { expect(val(dt, do_not_serialize_if_class_is: DateTime)).to be_a(DateTime) }
     it { expect(val(dt, do_not_serialize_if_class_is: [DateTime])).to be_a(DateTime) }
+    it do
+      obj = klass.new
+      obj.child = klass.new(
+        foo: dt
+      )
+      serializer = described_class.new(
+        object: obj,
+        do_not_serialize_if_class_is: DateTime
+      )
+      serialized = serializer.serialize
+      child_id = serialized[:objects][serializer.id][:data][:child][:id]
+      tval = serialized[:objects][child_id][:data][:foo]
+      expect(tval).to be_a(DateTime)
+    end
   end
 end
