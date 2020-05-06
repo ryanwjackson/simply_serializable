@@ -10,6 +10,8 @@
 # rspec failure tracking
 .rspec_status
 
+.ruby-version
+
 .byebug_history
 
 .DS_Store

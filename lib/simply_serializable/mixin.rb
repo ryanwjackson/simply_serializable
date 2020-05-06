@@ -4,28 +4,28 @@ module SimplySerializable
   module Mixin
     module ClassMethods
       def inherited(subclass)
-        subclass.serialize(**serializable_config)
+        subclass.simply_serialize(**simply_serializable_config)
         super(subclass)
       end
 
-      def serialize(attributes: [], except: nil, only: nil, **keywords)
-        serializable_config[:attributes] = serializable_config[:attributes] |= attributes
+      def simply_serialize(attributes: [], except: nil, only: nil, **keywords)
+        simply_serializable_config[:attributes] = simply_serializable_config[:attributes] |= attributes
 
         unless except.nil?
-          serializable_config[:except] ||= []
-          serializable_config[:except] = serializable_config[:except] |= except
+          simply_serializable_config[:except] ||= []
+          simply_serializable_config[:except] = simply_serializable_config[:except] |= except
         end
 
         unless only.nil?
-          serializable_config[:only] ||= []
-          serializable_config[:only] = serializable_config[:only] |= only
+          simply_serializable_config[:only] ||= []
+          simply_serializable_config[:only] = simply_serializable_config[:only] |= only
         end
 
-        serializable_config.merge!(keywords)
+        simply_serializable_config.merge!(keywords)
       end
 
-      def serializable_config
-        @serializable_config ||= {
+      def simply_serializable_config
+        @simply_serializable_config ||= {
           attributes: [],
           except: nil,
           only: nil
@@ -38,13 +38,13 @@ module SimplySerializable
       base.extend(ClassMethods)
     end
 
-    def serialize(cache: {}, **options)
-      serializer(cache: cache, **options).serialize
+    def simply_serialize(cache: {}, **options)
+      simply_serializer(cache: cache, **options).serialize
     end
 
-    def serializer(cache: {}, **options)
+    def simply_serializer(cache: {}, **options)
       Serializer.new(
-        **self.class.serializable_config.merge(
+        **self.class.simply_serializable_config.merge(
           options
         ).merge(
           cache: cache,
@@ -53,8 +53,8 @@ module SimplySerializable
       )
     end
 
-    def serializable_id
-      serializer.id
+    def simply_serializable_id
+      simply_serializer.id
     end
   end
 end

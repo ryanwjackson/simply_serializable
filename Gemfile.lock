@@ -22,6 +22,8 @@ GEM
     fingerprintable (1.2.1)
       colorize
     json (2.2.0)
+    pd_ruby (0.2.3)
+      colorize
     rake (13.0.1)
     rspec (3.8.0)
       rspec-core (~> 3.8.0)
@@ -55,9 +57,10 @@ DEPENDENCIES
   bundler (~> 2.0)
   byebug
   coveralls
+  pd_ruby
   rake (~> 13.0)
   rspec (~> 3.0)
   simply_serializable!
 
 BUNDLED WITH
-   2.0.2
+   2.1.4
