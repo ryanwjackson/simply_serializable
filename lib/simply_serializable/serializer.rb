@@ -176,7 +176,7 @@ module SimplySerializable
                         object: use_object
                       )
                     else
-                      use_object.serializer(cache: @local_cache)
+                      use_object.simply_serializer(cache: @local_cache)
                     end
 
       @local_cache.merge!(serializer.cache)
